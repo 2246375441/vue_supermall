@@ -7,8 +7,9 @@
     </home-swiper>
     <home-recommends :recommends="recommends"></home-recommends>
     <this-week></this-week>
-    <tab-control :titles="['流行','新款','精选']" class="tab-control"></tab-control>
-    <ul>
+    <tab-control :titles="['流行','新款','精选']" class="tab-control" @tabClick="tabClick"></tab-control>
+    <good-list :goods="showGoods"></good-list>
+    <!-- <ul>
       <li>列表1</li>
       <li>列表2</li>
       <li>列表3</li>
@@ -49,7 +50,7 @@
       <li>列表18</li>
       <li>列表19</li>
       <li>列表20</li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
@@ -61,6 +62,7 @@ import HomeSwiper from './childComps/HomeSwiper'
 import HomeRecommends from './childComps/HomeRecommends'
 import ThisWeek from './childComps/ThisWeek'
 import TabControl from '../../components/content/tabControl/TabControl'
+import GoodList from '../../components/content/goods/GoodsList'
 
 export default {
   name:'Home',
@@ -69,7 +71,8 @@ export default {
     HomeSwiper,
     HomeRecommends,
     ThisWeek,
-    TabControl
+    TabControl,
+    GoodList
   },
   data() {
     return {
@@ -80,7 +83,8 @@ export default {
         'pop':{page:0,list:[]},
         'new':{page:0,list:[]},
         'sell':{page:0,list:[]},
-      }
+      },
+      currentType:'pop',
     }
   },
   // 声明周期函数  首页创建完成之后 直接触发
@@ -94,6 +98,29 @@ export default {
     this.getHomeGoods('sell')
   },
   methods: {
+    /** 
+    * 事件监听相关方法
+    */
+    tabClick(index){
+      // console.log(index)
+      switch(index){
+        case 0:
+          this.currentType = 'pop'
+          break
+        case 1:
+          this.currentType = 'new'
+          break
+        case 2:
+          this.currentType = 'sell'
+          break
+      }
+    },
+
+
+
+    /** 
+    * 网络请求相关方法
+    */
     getHomeMultidata(){
       getHomeMultidata().then(res => {
       // 将端口数据存入 data中的result中
@@ -114,6 +141,12 @@ export default {
       })
     },
   },
+  computed: {
+    showGoods(){
+      return this.goods[this.currentType].list
+    }
+  },
+
 }
 </script>
 

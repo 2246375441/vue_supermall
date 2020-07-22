@@ -26,6 +26,8 @@ export default {
   methods: {
     tabClick(index){
       this.currentIndex = index
+      // 子组件传出数据
+      this.$emit('tabClick',index)
     }
   },
 }
