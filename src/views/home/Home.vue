@@ -1,13 +1,11 @@
 <template>
   <div id="home">
     <nav-bar class="home-nav">
-      <div slot="left"></div>
       <div slot="center">购物街</div>
-      <div slot="right"></div>
     </nav-bar>
-      <home-swiper :banners="banners" ref="hSwiper">
-
-      </home-swiper>
+    <home-swiper :banners="banners" ref="hSwiper">
+    </home-swiper>
+    <home-recommends :recommends="recommends"></home-recommends>
   </div>
 </template>
 
@@ -15,12 +13,14 @@
 import NavBar from 'components/common/navbar/NavBar'
 import {getHomeMultidata} from 'network/home'
 import HomeSwiper from './childComps/HomeSwiper'
+import HomeRecommends from './childComps/HomeRecommends'
 
 export default {
   name:'Home',
   components:{
     NavBar,
-    HomeSwiper
+    HomeSwiper,
+    HomeRecommends
   },
   data() {
     return {
