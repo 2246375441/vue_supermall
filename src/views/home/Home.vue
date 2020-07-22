@@ -56,6 +56,7 @@
 <script>
 import NavBar from 'components/common/navbar/NavBar'
 import {getHomeMultidata} from 'network/home'
+import {getHomeGoods} from 'network/home'
 import HomeSwiper from './childComps/HomeSwiper'
 import HomeRecommends from './childComps/HomeRecommends'
 import ThisWeek from './childComps/ThisWeek'
@@ -75,18 +76,43 @@ export default {
       result:null,
       banners:[], 
       recommends:[],
+      goods:{
+        'pop':{page:0,list:[]},
+        'new':{page:0,list:[]},
+        'sell':{page:0,list:[]},
+      }
     }
   },
   // 声明周期函数  首页创建完成之后 直接触发
   created() {
     // 1 请求多个数据
-    getHomeMultidata().then(res => {
+    this.getHomeMultidata()
+
+    // 2 请求goods 商品数据
+    this.getHomeGoods('pop')
+    this.getHomeGoods('new')
+    this.getHomeGoods('sell')
+  },
+  methods: {
+    getHomeMultidata(){
+      getHomeMultidata().then(res => {
       // 将端口数据存入 data中的result中
       this.result = res
 
       this.banners = res.data.data.banner.list;
       this.recommends = res.data.data.recommend.list;
-    })
+    }) 
+    },
+
+    getHomeGoods(type){
+      const page = this.goods[type].page + 1
+      getHomeGoods(type,page).then(res => {
+      // console.log(res)
+      this.goods[type].list.push(...res.data.data.list)
+      this.goods[type].page += 1
+      // console.log(page)
+      })
+    },
   },
 }
 </script>
