@@ -4,7 +4,7 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll class="content" ref="Homescroll">
+    <scroll class="content" ref="Homescroll" :probe-type='3' @scroll="contentscroll">
       <home-swiper :banners="banners" ref="hSwiper">
       </home-swiper>
       <home-recommends :recommends="recommends"></home-recommends>
@@ -14,7 +14,7 @@
     </scroll>
 
     <!-- native   @click不能监听组件   加上修饰符native  则可以 -->
-    <back-top @click.native="backClick"></back-top>
+    <back-top @click.native="backClick" v-show="isShowBackTo"></back-top>
   </div>
 </template>
 
@@ -52,6 +52,7 @@ export default {
         'sell':{page:0,list:[]},
       },
       currentType:'pop',
+      isShowBackTo:false
     }
   },
   // 声明周期函数  首页创建完成之后 直接触发
@@ -87,6 +88,10 @@ export default {
       // console.log(this.$refs.Homescroll.scroll)
 
       this.$refs.Homescroll.scrollTo(0,0,500)
+    },
+    contentscroll(position){
+      // console.log(position)
+      this.isShowBackTo = position.y <-1000
     },
 
 
