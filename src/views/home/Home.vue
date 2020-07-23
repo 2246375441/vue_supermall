@@ -3,54 +3,18 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <home-swiper :banners="banners" ref="hSwiper">
-    </home-swiper>
-    <home-recommends :recommends="recommends"></home-recommends>
-    <this-week></this-week>
-    <tab-control :titles="['流行','新款','精选']" class="tab-control" @tabClick="tabClick"></tab-control>
-    <good-list :goods="showGoods"></good-list>
-    <!-- <ul>
-      <li>列表1</li>
-      <li>列表2</li>
-      <li>列表3</li>
-      <li>列表4</li>
-      <li>列表5</li>
-      <li>列表6</li>
-      <li>列表7</li>
-      <li>列表8</li>
-      <li>列表9</li>
-      <li>列表10</li>
-      <li>列表11</li>
-      <li>列表12</li>
-      <li>列表13</li>
-      <li>列表14</li>
-      <li>列表15</li>
-      <li>列表16</li>
-      <li>列表17</li>
-      <li>列表18</li>
-      <li>列表19</li>
-      <li>列表20</li>
-      <li>列表1</li>
-      <li>列表2</li>
-      <li>列表3</li>
-      <li>列表4</li>
-      <li>列表5</li>
-      <li>列表6</li>
-      <li>列表7</li>
-      <li>列表8</li>
-      <li>列表9</li>
-      <li>列表10</li>
-      <li>列表11</li>
-      <li>列表12</li>
-      <li>列表13</li>
-      <li>列表14</li>
-      <li>列表15</li>
-      <li>列表16</li>
-      <li>列表17</li>
-      <li>列表18</li>
-      <li>列表19</li>
-      <li>列表20</li>
-    </ul> -->
+
+    <scroll class="content" ref="Homescroll">
+      <home-swiper :banners="banners" ref="hSwiper">
+      </home-swiper>
+      <home-recommends :recommends="recommends"></home-recommends>
+      <this-week></this-week>
+      <tab-control :titles="['流行','新款','精选']" class="tab-control" @tabClick="tabClick"></tab-control>
+      <good-list :goods="showGoods"></good-list>
+    </scroll>
+
+    <!-- native   @click不能监听组件   加上修饰符native  则可以 -->
+    <back-top @click.native="backClick"></back-top>
   </div>
 </template>
 
@@ -63,7 +27,8 @@ import HomeRecommends from './childComps/HomeRecommends'
 import ThisWeek from './childComps/ThisWeek'
 import TabControl from '../../components/content/tabControl/TabControl'
 import GoodList from '../../components/content/goods/GoodsList'
-
+import Scroll from '../../components/common/scroll/Scroll'
+import BackTop from '../../components/content/backTop/BackTop'
 export default {
   name:'Home',
   components:{
@@ -72,7 +37,9 @@ export default {
     HomeRecommends,
     ThisWeek,
     TabControl,
-    GoodList
+    GoodList,
+    Scroll,
+    BackTop
   },
   data() {
     return {
@@ -115,6 +82,12 @@ export default {
           break
       }
     },
+    backClick(){
+      // this.$refs.Homescroll.scroll.scrollTo(0,0)
+      // console.log(this.$refs.Homescroll.scroll)
+
+      this.$refs.Homescroll.scrollTo(0,0,500)
+    },
 
 
 
@@ -150,9 +123,13 @@ export default {
 }
 </script>
 
+
+
 <style scoped>
+/* scoped作用域 */
 #home{
-  padding-top: 44px;
+  /* padding-top: 44px; */
+  height: 100vh;
 }
 .home-nav{
   background-color: var(--color-tint);
@@ -170,5 +147,11 @@ export default {
   position: sticky;
   top:44px;
   background-color: #fff;
+}
+.content{
+  height: calc(100% - 93px);
+  margin-top: 44px;
+  /* height:100%; */
+  /* overflow: hidden; */
 }
 </style>
