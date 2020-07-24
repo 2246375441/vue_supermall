@@ -4,7 +4,7 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll class="content" ref="Homescroll" :probe-type='3' @scroll="contentscroll">
+    <scroll class="content" ref="Homescroll" :probe-type='3' @scroll="contentscroll" :pull-up-load="true" @pullingUp="loadMore">
       <home-swiper :banners="banners" ref="hSwiper">
       </home-swiper>
       <home-recommends :recommends="recommends"></home-recommends>
@@ -93,6 +93,12 @@ export default {
       // console.log(position)
       this.isShowBackTo = position.y <-1000
     },
+    loadMore(){
+      // console.log('加载')
+      this.getHomeGoods(this.currentType)
+    },
+
+  
 
 
 
@@ -116,6 +122,7 @@ export default {
       this.goods[type].list.push(...res.data.data.list)
       this.goods[type].page += 1
       // console.log(page)
+      this.$refs.Homescroll.finishPullUp()
       })
     },
   },
