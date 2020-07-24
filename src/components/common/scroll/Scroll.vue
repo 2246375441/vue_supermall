@@ -39,19 +39,18 @@ export default {
       // console.log(position)
       this.$emit('scroll',position)
     })
+    // console.log(this.scroll)
 
     // 监听上拉事件
     this.scroll.on('pullingUp',() => {
       // console.log('上拉加载更多')
       this.$emit('pullingUp')
     })
+
   },
   methods: {
     scrollTo(x,y,time=300){
       this.scroll.scrollTo(x,y,time)
-    },
-    finishPullUp(){
-      this.scroll.finishPullUp()
     }
   },
 }

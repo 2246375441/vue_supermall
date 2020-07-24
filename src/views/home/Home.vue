@@ -4,7 +4,7 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll class="content" ref="Homescroll" :probe-type='3' @scroll="contentscroll" :pull-up-load="true" @pullingUp="loadMore">
+    <scroll class="content" ref="Homescroll" :probe-type='3' @scroll="contentscroll" :pull-up-load="true" @pullingUp="imagLoad">
       <home-swiper :banners="banners" ref="hSwiper">
       </home-swiper>
       <home-recommends :recommends="recommends"></home-recommends>
@@ -64,6 +64,15 @@ export default {
     this.getHomeGoods('pop')
     this.getHomeGoods('new')
     this.getHomeGoods('sell')
+
+
+    // 监听GoodsListitem.vue中 @load 发送出来的数据
+    this.$bus.$on('itemImageLoad' ,() => {
+      // 刷新 scroll中 可以拖动高度
+      // console.log(this.$refs.Homescroll.scroll)
+      this.$refs.Homescroll && this.$refs.Homescroll.scroll.refresh()
+      // console.log(this.$refs.Homescroll.scroll.refresh)
+    })
   },
   methods: {
     /** 
@@ -93,8 +102,8 @@ export default {
       // console.log(position)
       this.isShowBackTo = position.y <-1000
     },
-    loadMore(){
-      // console.log('加载')
+    imagLoad(){
+      console.log('加载')
       this.getHomeGoods(this.currentType)
     },
 
@@ -121,8 +130,8 @@ export default {
       // console.log(res)
       this.goods[type].list.push(...res.data.data.list)
       this.goods[type].page += 1
-      // console.log(page)
-      this.$refs.Homescroll.finishPullUp()
+      // 再次 可以触发 pullUpLoad 下拉监听
+      this.$refs.Homescroll.scroll.finishPullUp()
       })
     },
   },

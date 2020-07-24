@@ -1,6 +1,7 @@
 <template>
   <div class="goods">
-    <img :src="goodsItem.show.img" alt="">
+		<!-- @load 监听 图片加载 -->
+    <img :src="goodsItem.show.img" alt="" @load="imageLoad">
     <div class="goods-info">
       <p class="info">{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
@@ -19,7 +20,15 @@ export default {
         return {}
       }
     }
-  }
+	},
+	methods: {
+		imageLoad(){
+			// console.log('imageLoad')
+
+			// 将数据发射到 事件总线 中 $bus中，在Home.vue中接收
+			this.$bus.$emit('itemImageLoad')
+		}
+	},
 }
 </script>
 
