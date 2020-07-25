@@ -65,13 +65,19 @@ export default {
     this.getHomeGoods('new')
     this.getHomeGoods('sell')
 
+  },
+  mounted() {
+      // 监听GoodsListitem.vue中 @load 发送出来的数据
+      // 刷新 scroll中 更新scrollerHeight 可以拉动的高度
+    //   this.$bus.$on('itemImageLoad' ,() => {
+    //   console.log(this.$refs.Homescroll.scroll)
+    //   this.$refs.Homescroll && this.$refs.Homescroll.scroll.refresh()
+    // })
 
-    // 监听GoodsListitem.vue中 @load 发送出来的数据
-    this.$bus.$on('itemImageLoad' ,() => {
-      // 刷新 scroll中 可以拖动高度
-      // console.log(this.$refs.Homescroll.scroll)
-      this.$refs.Homescroll && this.$refs.Homescroll.scroll.refresh()
-      // console.log(this.$refs.Homescroll.scroll.refresh)
+
+    const refresh = this.debounce(this.$refs.Homescroll.refresh,50)
+    this.$bus.$on('itemImageLoad',() => {
+      refresh()
     })
   },
   methods: {
@@ -102,11 +108,20 @@ export default {
       // console.log(position)
       this.isShowBackTo = position.y <-1000
     },
+    // 上拉加载
     imagLoad(){
-      console.log('加载')
       this.getHomeGoods(this.currentType)
     },
-
+    // 防抖debounce  节流throttle
+    debounce(func,delay){
+      let timer = null
+      return function(...args){
+        if (timer) clearTimeout(timer)
+        timer = setTimeout(() => {
+          func.apply(this,args)
+        },delay)
+      }
+    },
   
 
 
