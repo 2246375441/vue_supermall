@@ -1,6 +1,10 @@
 <template>
+<!-- 2020.7.31 -->
   <div id="app">
+    <keep-alive>
+      <!-- keep-alive 缓存 -->
     <router-view></router-view>
+    </keep-alive>
     <main-tab-bar></main-tab-bar>
   </div>
 </template>

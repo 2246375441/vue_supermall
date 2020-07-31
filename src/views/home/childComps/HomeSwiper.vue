@@ -1,9 +1,9 @@
 <template>
-  <swiper ref="swiper" v-if="banners.length">
+  <swiper ref="swiper" v-if="banners.length" >
     <swiper-item v-for="(item, index) in banners" :key="index">
       <!-- <a :href="item.link"> -->
       <a>
-        <img :src="item.image" alt="">
+        <img :src="item.image" alt="" @load="loadswiperimg">
       </a>
     </swiper-item>
   </swiper>
@@ -13,7 +13,12 @@
   import {Swiper, SwiperItem} from '../../../components/common/swiper'
 
 	export default {
-		name: "HomeSwiper",
+    name: "HomeSwiper",
+    data() {
+      return {
+        isLoad:false
+      }
+    },
     components: {
 		  Swiper,
       SwiperItem
@@ -32,6 +37,14 @@
 		    if (this.$refs.swiper) {
           this.$refs.swiper.startTimer()
         }
+      },
+      loadswiperimg(){
+        // console.log('---')
+        if(this.isLoad == false){
+          this.$emit('loadswiperimg')
+          this.isLoad = true
+        }
+        
       }
     }
 	}

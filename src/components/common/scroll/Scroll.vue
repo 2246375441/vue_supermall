@@ -18,7 +18,7 @@ export default {
    }
  },
  props:{
-   probeType:{
+   probeType:{ 
      type:Number,
      default:0
    },
@@ -46,6 +46,20 @@ export default {
       // console.log('上拉加载更多')
       this.$emit('pullingUp')
     })
+
+    // if(this.probeType === 2 || this.probeType === 3){
+    //   this.scroll.on('scroll',(position) => {
+    //   // console.log(position)
+    //   this.$emit('scroll',position)
+    // })
+    // }
+
+    // if(this.pullUpLoad){
+    //   this.scroll.on('pullingUp',() => {
+    //   this.$emit('pullingUp')
+    // })
+    // }
+
 
   },
   methods: {

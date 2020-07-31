@@ -4,12 +4,21 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
+     <tab-control :titles="['流行','新款','精选']" v-show="isTabFixed"
+      @tabClick="tabClick" 
+      ref="tabControl1" 
+      class="tabControlwk"
+      ></tab-control>
+
     <scroll class="content" ref="Homescroll" :probe-type='3' @scroll="contentscroll" :pull-up-load="true" @pullingUp="imagLoad">
-      <home-swiper :banners="banners" ref="hSwiper">
+      <home-swiper :banners="banners" ref="hSwiper" @loadswiperimg='loadswiperimg'>
       </home-swiper>
       <home-recommends :recommends="recommends"></home-recommends>
       <this-week></this-week>
-      <tab-control :titles="['流行','新款','精选']" class="tab-control" @tabClick="tabClick"></tab-control>
+      <tab-control :titles="['流行','新款','精选']"  
+      @tabClick="tabClick" 
+      ref="tabControl2" 
+      ></tab-control>
       <good-list :goods="showGoods"></good-list>
     </scroll>
 
@@ -29,6 +38,7 @@ import TabControl from '../../components/content/tabControl/TabControl'
 import GoodList from '../../components/content/goods/GoodsList'
 import Scroll from '../../components/common/scroll/Scroll'
 import BackTop from '../../components/content/backTop/BackTop'
+import {debounce} from '../../common/utils'
 export default {
   name:'Home',
   components:{
@@ -52,7 +62,11 @@ export default {
         'sell':{page:0,list:[]},
       },
       currentType:'pop',
-      isShowBackTo:false
+      isShowBackTo:false,
+      // offsetTop 获取对象相对于offsetParent属性指定的父坐标(css定位的元素或Body元素)距离顶端高度
+      tabOffseTop:0,
+      isTabFixed:false,
+      saveY:0
     }
   },
   // 声明周期函数  首页创建完成之后 直接触发
@@ -65,6 +79,9 @@ export default {
     this.getHomeGoods('new')
     this.getHomeGoods('sell')
 
+
+    // 3.赋值
+
   },
   mounted() {
       // 监听GoodsListitem.vue中 @load 发送出来的数据
@@ -74,11 +91,15 @@ export default {
     //   this.$refs.Homescroll && this.$refs.Homescroll.scroll.refresh()
     // })
 
-
-    const refresh = this.debounce(this.$refs.Homescroll.refresh,50)
+    // 1.图片加载完成的事件监听
+    const refresh = debounce(this.$refs.Homescroll.refresh,50)
     this.$bus.$on('itemImageLoad',() => {
       refresh()
     })
+
+    
+
+
   },
   methods: {
     /** 
@@ -97,6 +118,8 @@ export default {
           this.currentType = 'sell'
           break
       }
+      this.$refs.tabControl1.currentIndex = index;
+      this.$refs.tabControl2.currentIndex = index;
     },
     backClick(){
       // this.$refs.Homescroll.scroll.scrollTo(0,0)
@@ -106,21 +129,21 @@ export default {
     },
     contentscroll(position){
       // console.log(position)
+      // 1 判断backtop 是否显示 
       this.isShowBackTo = position.y <-1000
+
+      // 2 决定tabControl 是否吸顶(position:fixed)
+      this.isTabFixed = (-position.y) > this.tabOffseTop - 40
     },
     // 上拉加载
     imagLoad(){
       this.getHomeGoods(this.currentType)
     },
-    // 防抖debounce  节流throttle
-    debounce(func,delay){
-      let timer = null
-      return function(...args){
-        if (timer) clearTimeout(timer)
-        timer = setTimeout(() => {
-          func.apply(this,args)
-        },delay)
-      }
+    loadswiperimg(){
+    // 2.获取tabControl 的 offsetTop
+    // 所有的组件都有一个属性$el 用于获取组件中的元素
+    // console.log(this.$refs.tabControl.$el.offsetTop)
+    this.tabOffseTop = this.$refs.tabControl2.$el.offsetTop
     },
   
 
@@ -156,6 +179,16 @@ export default {
     }
   },
 
+  activated() {
+    // 刷新  下面
+    this.$refs.Homescroll.refresh()
+    this.$refs.Homescroll.scrollTo(0,this.saveY)
+  },
+  deactivated() {
+    this.saveY = this.$refs.Homescroll.scroll.y
+    // console.log(this.saveY)
+  },
+
 }
 </script>
 
@@ -164,18 +197,17 @@ export default {
 <style scoped>
 /* scoped作用域 */
 #home{
-  /* padding-top: 44px; */
   height: 100vh;
 }
 .home-nav{
   background-color: var(--color-tint);
   color: white;
 
-  position: fixed;
+  /* position: fixed;
   left: 0;
   right: 0;
   top: 0;
-  z-index: 9;
+  z-index: 9; */
 
 }
 .tab-control{
@@ -186,8 +218,15 @@ export default {
 }
 .content{
   height: calc(100% - 93px);
-  margin-top: 44px;
+  /* margin-top: 44px; */
   /* height:100%; */
-  /* overflow: hidden; */
+  overflow: hidden;
+}
+.tabControlwk{
+  position:fixed;
+  z-index: 9;
+  right: 0;
+  left: 0;
+  background-color: white;
 }
 </style>
