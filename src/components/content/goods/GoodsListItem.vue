@@ -29,7 +29,8 @@ export default {
 			this.$bus.$emit('itemImageLoad')
 		},
 		itemClick(){
-			console.log('触发')
+			// 将数据传入 详情页
+			this.$router.push('/detail/'+this.goodsItem.iid)
 		}
 	},
 	
