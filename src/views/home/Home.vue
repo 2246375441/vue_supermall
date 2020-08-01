@@ -19,7 +19,7 @@
       @tabClick="tabClick" 
       ref="tabControl2" 
       ></tab-control>
-      <good-list :goods="showGoods"></good-list>
+      <good-list :goods="showGoods" style="background-color: white;"></good-list>
     </scroll>
 
     <!-- native   @click不能监听组件   加上修饰符native  则可以 -->

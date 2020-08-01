@@ -1,7 +1,8 @@
 <template>
   <div class="good">
     <!-- {{goods}} -->
-  <goods-list-item v-for="(item,index) in goods" :goods-item="item" :key="index">
+  <goods-list-item v-for="(item,index) in goods" :goods-item="item" :key="index" class="gd">
+  <!-- <goods-list-item v-for="item in goods" :goods-item="item" > -->
   </goods-list-item>
   </div>
 </template>
@@ -33,9 +34,11 @@ export default {
 
 <style>
 .good{
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+.gd{
+  z-index: 999;
 }
 </style>

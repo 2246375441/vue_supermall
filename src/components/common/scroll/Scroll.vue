@@ -29,7 +29,7 @@ export default {
  },
   mounted() {
   this.scroll = new BScroll(this.$refs.Swrapper,{
-    click:true,
+    click: true,
     probeType: this.probeType,
     pullUpLoad:this.pullUpLoad
     })
@@ -72,6 +72,8 @@ export default {
     }
   },
 }
+
+
 </script>
 
 <style>
