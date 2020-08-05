@@ -1,7 +1,7 @@
 <template>
   <div class="goods" @click="itemClick">
 		<!-- @load 监听 图片加载 -->
-    <img :src="goodsItem.show.img" alt="" @load="imageLoad">
+    <img :src="showImage" alt="" @load="imageLoad">
     <div class="goods-info">
       <p class="info">{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
@@ -31,6 +31,11 @@ export default {
 		itemClick(){
 			// 将数据传入 详情页
 			this.$router.push('/detail/'+this.goodsItem.iid)
+		}
+	},
+	computed: {
+		showImage(){
+			return this.goodsItem.image || this.goodsItem.show.img
 		}
 	},
 	
