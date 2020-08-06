@@ -1,7 +1,7 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-nav" @titleClick="titleClick"></detail-nav-bar>
-    <scroll class="contenthe" ref="Homescroll">
+    <detail-nav-bar class="detail-nav" @titleClick="titleClick" ref="nav"></detail-nav-bar>
+    <scroll class="contenthe" ref="Homescroll" :probe-type="3" @scroll="contentScroll">
       <detail-swiper :top-images="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop="shop"></detail-shop-info>
@@ -10,6 +10,8 @@
       <deta-comment-info :commentInfo="commentInfo" ref="comment"></deta-comment-info>
       <goods-list :goods="recommends" ref="recommend"></goods-list>
     </scroll>
+    <back-top @click.native="backClick" v-show="isShowBackTo"></back-top>
+    <deta-bottom-bar @addToCart="addToCart"></deta-bottom-bar>
   </div>
 </template>
 
@@ -21,6 +23,8 @@ import DetailShopInfo from './childComps/DetailShopInfo'
 import DetailGoodsInfo from './childComps/DetailGoodsInfo'
 import DetailParamInfo from './childComps/DetailParamInfo'
 import DetaCommentInfo from './childComps/DetaCommentInfo'
+import DetaBottomBar from './childComps/DetaBottomBar'
+import BackTop from '../../components/content/backTop/BackTop'
 
 import Scroll from '../../components/common/scroll/Scroll'
 
@@ -43,7 +47,10 @@ export default {
       commentInfo:{},
       recommends:[],
       themeTopYs:[],
-      getThemeTopY:null
+      getThemeTopY:null,
+      positionY:0,
+      currentIndex:0,
+      isShowBackTo:false
     }
   },
   created() {
@@ -98,6 +105,7 @@ export default {
         this.themeTopYs.push(this.$refs.params.$el.offsetTop-44)
         this.themeTopYs.push(this.$refs.comment.$el.offsetTop-44)
         this.themeTopYs.push(this.$refs.recommend.$el.offsetTop-44)
+        this.themeTopYs.push(Number.MAX_VALUE)
         console.log('true2')
     })
   },
@@ -110,7 +118,9 @@ export default {
     DetailGoodsInfo,
     DetailParamInfo,
     DetaCommentInfo,
-    GoodsList
+    GoodsList,
+    DetaBottomBar,
+    BackTop
   },
   methods: {
     imageLoad(){
@@ -121,6 +131,56 @@ export default {
     titleClick(index){
       // console.log(index)
       this.$refs.Homescroll.scrollTo(0,-this.themeTopYs[index],100)
+    },
+    contentScroll(position){
+      const positionY = -position.y
+
+      let length = this.themeTopYs.length
+
+      for(let i=0;i<length;i++){
+
+        // if(this.currentIndex !== i &&((i < length - 1 && positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1]) || (i ===
+        // length -1 && positionY >= this.themeTopYs[i]))){
+        //   this.currentIndex = i;
+        //   console.log(this.currentIndex)
+        //   this.$refs.nav.currentIndex = this.currentIndex
+        // }
+
+
+        // DetailNavBar滚动到 位置时  改变  [商品，参数，评论，推荐]
+        if(this.currentIndex !== i && (positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1])){
+          this.currentIndex = i
+          this.$refs.nav.currentIndex = this.currentIndex
+        }
+
+      }
+
+      // 判断 返回按钮backTop 隐藏还是现实
+      this.isShowBackTo = position.y <-1000
+
+
+    },
+    backClick(){
+      this.$refs.Homescroll.scrollTo(0,0,500)
+    },
+    addToCart(){
+      // 1 获取购物车 需要展示的信息
+      const product = {}
+      product.image = this.topImages[0]
+      product.title = this.goods.title
+      product.desc = this.goods.desc
+      product.price = this.goods.realPrice
+      product.iid = this.iid
+      // console.log(product)
+      // console.log(this.goods)
+
+      // 2 将商品添加到购物车里(使用了vuex)
+      // ↓  mutations
+      // this.$store.commit('addCart',product)
+      // ↓  actions  将数据发送到vuex 中
+      this.$store.dispatch('addCart',product)
+
+
     }
   },
   mounted() {
@@ -146,7 +206,7 @@ export default {
 }
 
 .contenthe{
-  height: calc(100% - 44px);
+  height: calc(100% - 44px - 52px);
 }
 
 .detail-nav{
