@@ -12,5 +12,7 @@ module.exports = {
         'views':'@/views'
       }
     }
-  }
+  },
+  runtimeCompiler: true,
+    publicPath: './'
 }

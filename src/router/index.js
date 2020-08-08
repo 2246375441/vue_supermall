@@ -44,7 +44,8 @@ const routes = [
 const router = new VueRouter({
   routes,
   // 去掉# 启动history模式
-  mode:'history'
+  // mode:'history'
+  mode:'hash'
 })
 
 
