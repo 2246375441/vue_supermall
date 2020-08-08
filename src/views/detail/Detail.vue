@@ -12,6 +12,7 @@
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTo"></back-top>
     <deta-bottom-bar @addToCart="addToCart"></deta-bottom-bar>
+    <!-- <toast  :message="message" :show="show"></toast> -->
   </div>
 </template>
 
@@ -33,6 +34,7 @@ import {debounce} from '../../common/utils'
 
 import GoodsList from '../../components/content/goods/GoodsList'
 
+// import Toast from '../../components/common/toast/Toast';
 
 export default {
   name:'Detail',
@@ -50,7 +52,9 @@ export default {
       getThemeTopY:null,
       positionY:0,
       currentIndex:0,
-      isShowBackTo:false
+      isShowBackTo:false,
+      // message:'',
+      // show:false
     }
   },
   created() {
@@ -120,7 +124,8 @@ export default {
     DetaCommentInfo,
     GoodsList,
     DetaBottomBar,
-    BackTop
+    BackTop,
+    // Toast
   },
   methods: {
     imageLoad(){
@@ -175,11 +180,23 @@ export default {
       // console.log(this.goods)
 
       // 2 将商品添加到购物车里(使用了vuex)
-      // ↓  mutations
+      // ↓    mutations
       // this.$store.commit('addCart',product)
-      // ↓  actions  将数据发送到vuex 中
-      this.$store.dispatch('addCart',product)
+      // ↓☆  actions  将数据发送到vuex 中
+      // this.$store.dispatch('addCart',product)  
+      this.$store.dispatch('addCart',product).then(res => {
+        // this.show = true
+        // this.message = res
+        // setTimeout(() => {
+        //   this.show = false
+        //   this.message = ""
+        // },1500)
+        this.$toast.show(res,1500)
+        console.log(res)
+      })
 
+        
+    
 
     }
   },
