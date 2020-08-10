@@ -1,5 +1,5 @@
 <template>
-<!-- 2020.8.8 -->
+<!-- 2020.8.10 -->
   <div id="app">
     <keep-alive exclude="Detail">
       <!-- keep-alive 缓存    exclude="Detail" 这页面不缓存 -->
