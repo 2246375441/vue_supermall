@@ -10,8 +10,8 @@
       <div style="width: 100%;">
         <tab-control :titles="['流行','新款','精选']" class="tab-control" @tabClick='tabClick'></tab-control>
         <scroll class="scrollwk" ref="TabScroll">
-          <!-- <category-item :subcategory="subcategory" @imgload="imgload"></category-item> -->
-          <category-item-tab :tabcsh='categoryitemtab' :categorytab="categorytab"></category-item-tab>
+          <category-item :subcategory="subcategory" @imgload="imgload"></category-item>
+          <category-item-tab :categoryitemtab='categoryitemtab' :categorytab="categorytab"></category-item-tab>
         </scroll>
       </div>
     </div>

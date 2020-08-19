@@ -1,7 +1,7 @@
 <template>
-  <div class="wk">
+  <div class="wk" v-if="Object.keys(categoryitemtab).length !== 0" >
     <!-- <button @click="cccccc">2222</button> -->
-    <div v-for="(item,index) in tabcsh[categorytab].data" :key="index" class="wkitem">
+    <div v-for="(item,index) in categoryitemtab[categorytab].data" :key="index" class="wkitem">
       <div class="wkitem-dw">
         <img v-lazy="item.img" alt="" class="wkitem-img">
         <div class="wkitem-wzq">
@@ -19,7 +19,7 @@
 export default {
   name:'CategoryItemTab',
   props:{
-    tabcsh:{
+    categoryitemtab:{
       type:Object,
       default(){
         return  {}
@@ -32,16 +32,7 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      tabdata:{}
-    }
-  },
-
   methods: {
-    cccccc(){
-      console.log(this.tabcsh)
-    }
   },
 }
 </script>
@@ -57,7 +48,7 @@ export default {
 }
 .wkitem{
   width: 47%;
-  height: 37vh;
+  height: 39vh;
   margin-bottom: 5px;
   /* background-color: red; */
 }
