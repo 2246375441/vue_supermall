@@ -1,7 +1,7 @@
 <template>
 <!-- 2020.8.16 -->
   <div id="app">
-    <keep-alive exclude="Detail">
+    <keep-alive exclude="Detail,CategoryData">
       <!-- keep-alive 缓存    exclude="Detail" 这页面不缓存 -->
     <router-view></router-view>
     </keep-alive>

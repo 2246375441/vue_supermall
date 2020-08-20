@@ -137,7 +137,7 @@ export default {
       // 加载tab数据   将数据存入categoryitemtab
       this.categoryitemtab = this.categoryData[index].categoryDetail
       // console.log(this.categoryData[index].categoryDetail)
-      console.log(this.categoryitemtab)
+      // console.log(this.categoryitemtab)
     },
     imgload(){
       // console.log('加载')

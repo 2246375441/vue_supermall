@@ -29,6 +29,14 @@ export default{
     }else{
       payload.count --
     }
-  }
+  },
+
+  
+
+  rxd(state,payload){
+    // console.log(payload)
+    state.rexData = payload
+  },
+  
 
 }

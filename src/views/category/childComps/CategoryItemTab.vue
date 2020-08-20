@@ -1,7 +1,7 @@
 <template>
-  <div class="wk" v-if="Object.keys(categoryitemtab).length !== 0" >
+  <div class="wk" v-if="Object.keys(categoryitemtab).length !== 0">
     <!-- <button @click="cccccc">2222</button> -->
-    <div v-for="(item,index) in categoryitemtab[categorytab].data" :key="index" class="wkitem">
+    <div v-for="(item,index) in categoryitemtab[categorytab].data" :key="index" class="wkitem" @click="itemClick(index)">
       <div class="wkitem-dw">
         <img v-lazy="item.img" alt="" class="wkitem-img">
         <div class="wkitem-wzq">
@@ -33,6 +33,26 @@ export default {
     }
   },
   methods: {
+    itemClick(index){
+      // console.log(index)
+      // console.log(this.categoryitemtab[this.categorytab].data[index])
+      const iid = this.categoryitemtab[this.categorytab].data[index].iid
+      const rxd = this.categoryitemtab[this.categorytab].data[index]
+      // this.$router.push('/categorydata/' + iid)
+
+
+      
+        this.$router.push("/detail/" + iid);
+
+
+
+
+      // 发送数据到vuex 中 mutations
+      // 通过mutations中的rex函数 修改 index中的rexData
+      // CategoryData 去获取 修改完毕后的 rexData 数据
+      this.$store.commit('rxd',rxd)
+
+    }
   },
 }
 </script>
