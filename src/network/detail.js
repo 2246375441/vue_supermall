@@ -10,7 +10,7 @@ export function getDetail(iid){
 }
 
 export class Goods {
-  constructor(itemInfo, columns, services) {
+  constructor(itemInfo, columns, services,skuInfo) {
     this.title = itemInfo.title
     this.desc = itemInfo.desc
     this.newPrice = itemInfo.price
@@ -20,6 +20,7 @@ export class Goods {
     this.services = services
     this.realPrice = itemInfo.lowNowPrice
     this.desc = itemInfo.desc
+    this.skuInfo = skuInfo
   }
 }
 

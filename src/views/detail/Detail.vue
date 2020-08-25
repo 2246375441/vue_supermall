@@ -55,6 +55,7 @@ export default {
       isShowBackTo:false,
       // message:'',
       // show:false
+      skuInfo:{}
     }
   },
   created() {
@@ -64,6 +65,7 @@ export default {
     // 2 根据iid请求详情数据
     getDetail(this.iid).then(res => {
       console.log('true1')
+      console.log(res);
       // 简写 const data = res.data.result
        const data = res.data.result
 
@@ -90,7 +92,11 @@ export default {
         // console.log(this.commentInfo)
       }
       
-      
+
+      // 获取商品 加入购物车时 选择框
+      this.skuInfo =data.skuInfo
+      console.log(this.skuInfo);
+
       
     }),
 
