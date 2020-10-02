@@ -1,13 +1,1 @@
-修改了 router  路由中 history模式
-const router = new VueRouter({
-  routes,
-  // 去掉# 启动history模式
-  // mode:'history'
-  mode:'hash'
-})
-
-
-10.2备份
-
-
-
+10.2同时推送
