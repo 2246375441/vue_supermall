@@ -3,21 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>介绍</title>
-  <style>
-    html,body{
-      width: 100%;
-    }
-    .wk{
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-
-  </style>
 </head>
-<body>
-  <div class="wk">
+<body style="width: 100%;">
+  <div class="wk" style="width: 100%;display: flex;justify-content: center;">
     <div class="nk_left">
       <img src="./public/GIF.gif" alt="">
     </div>
