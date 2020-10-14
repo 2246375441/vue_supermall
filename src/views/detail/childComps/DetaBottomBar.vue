@@ -15,8 +15,8 @@
       </div>
     </div>
     <div class="bar-item bar-right">
-      <div class="cart" @click="addToCart">加入购物车</div>
-      <div class="buy">购买</div>
+      <div class="cart" @click="isDetaInfo">加入购物车</div>
+      <div class="buy" @click="addToCart">购买</div>
     </div>
   </div>
 </template>
@@ -24,10 +24,20 @@
 <script>
 export default {
   name:'DetaBottomBar',
+  data() {
+    return {
+      isInfo:false
+    }
+  },
   methods: {
     addToCart(){
       console.log('加入购物车成功');
       this.$emit('addToCart')
+    },
+    isDetaInfo(){
+      this.isInfo = true
+      // console.log(this.isInfo);
+      this.$emit('isDetaInfo',this.isInfo)
     }
   },
 }

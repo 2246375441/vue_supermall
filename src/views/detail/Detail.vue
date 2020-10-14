@@ -11,8 +11,10 @@
       <goods-list :goods="recommends" ref="recommend"></goods-list>
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTo"></back-top>
-    <deta-bottom-bar @addToCart="addToCart"></deta-bottom-bar>
+    <deta-bottom-bar @addToCart="addToCart" @isDetaInfo="isDetaInfo"></deta-bottom-bar>
     <!-- <toast  :message="message" :show="show"></toast> -->
+    <deta-info :isDetaInfo="isInfo" :skuInfo="skuInfo" @infoClose="infoClose"></deta-info>
+
   </div>
 </template>
 
@@ -25,6 +27,7 @@ import DetailGoodsInfo from './childComps/DetailGoodsInfo'
 import DetailParamInfo from './childComps/DetailParamInfo'
 import DetaCommentInfo from './childComps/DetaCommentInfo'
 import DetaBottomBar from './childComps/DetaBottomBar'
+import DetaInfo from './childComps/DetaInfo'
 import BackTop from '../../components/content/backTop/BackTop'
 
 import Scroll from '../../components/common/scroll/Scroll'
@@ -55,7 +58,10 @@ export default {
       isShowBackTo:false,
       // message:'',
       // show:false
-      skuInfo:{}
+      // 购物车数据
+      skuInfo:{},
+      // 加入购物车显示隐藏
+      isInfo:false
     }
   },
   created() {
@@ -64,10 +70,11 @@ export default {
 
     // 2 根据iid请求详情数据
     getDetail(this.iid).then(res => {
-      console.log('true1')
-      console.log(res);
+      // console.log('true1')
+      // console.log(res);
       // 简写 const data = res.data.result
        const data = res.data.result
+      //  console.log(data.skuInfo);
 
       // 1.获取顶部图片 轮播数据
       this.topImages = data.itemInfo.topImages
@@ -93,9 +100,9 @@ export default {
       }
       
 
-      // 获取商品 加入购物车时 选择框
-      this.skuInfo =data.skuInfo
-      console.log(this.skuInfo);
+      // 获取商品 加入购物车时 选择框内部数据
+      this.skuInfo = data.skuInfo
+      // console.log(this.skuInfo);
 
       
     }),
@@ -116,7 +123,7 @@ export default {
         this.themeTopYs.push(this.$refs.comment.$el.offsetTop-44)
         this.themeTopYs.push(this.$refs.recommend.$el.offsetTop-44)
         this.themeTopYs.push(Number.MAX_VALUE)
-        console.log('true2')
+        // console.log('true2')
     })
   },
   components:{
@@ -131,6 +138,7 @@ export default {
     GoodsList,
     DetaBottomBar,
     BackTop,
+    DetaInfo,
     // Toast
   },
   methods: {
@@ -200,10 +208,14 @@ export default {
         this.$toast.show(res,1500)
         console.log(res)
       })
-
-        
-    
-
+    },
+    // 加入购物车的显示与隐藏
+    isDetaInfo(isInfo){
+      // console.log(isInfo);
+      this.isInfo = isInfo
+    },
+    infoClose(){
+      this.isInfo = false
     }
   },
   mounted() {
