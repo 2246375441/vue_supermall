@@ -28,6 +28,7 @@ import DetailParamInfo from './childComps/DetailParamInfo'
 import DetaCommentInfo from './childComps/DetaCommentInfo'
 import DetaBottomBar from './childComps/DetaBottomBar'
 import DetaInfo from './childComps/DetaInfo'
+
 import BackTop from '../../components/content/backTop/BackTop'
 
 import Scroll from '../../components/common/scroll/Scroll'
