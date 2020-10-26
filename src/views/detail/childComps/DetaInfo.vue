@@ -3,13 +3,68 @@
     <div class="info" v-if="isDetaInfo">
       <div class="infocon">
         <div class="infoClose" @click="infoClose">❌</div>
-        <button @click="infoBtnData">打印获得数据</button>
+        <!-- <button @click="infoBtnData">打印获得数据</button> -->
+
+        <!-- 头部内容 -->
+        <div class="infoNav">
+          <div class="infoIMG"></div>
+          <div class="infoTitle">
+            <div class="infoTitleFont1"><span>￥</span>100.00</div>
+            <div class="infoTitleFont2">库存2000</div>
+            <div class="infoTitleFont2">选择样式：短袖</div>
+          </div>
+        </div>
+
+        <div>
+          <scroll
+            class="contenthe"
+            ref="Homescroll"
+            :probe-type="3"
+            id="scrollGD"
+          >
+            <!-- 样式选择区域 -->
+            <div class="infoClassData">
+              <div>颜色:</div>
+              <div class="infoClassDataItem">
+                <div>短袖</div>
+                <div>短袖</div>
+                <div>短袖</div>
+                <div>短袖</div>
+                <div>短袖</div>
+                <div>短袖</div>
+              </div>
+            </div>
+            <div class="infoClassData">
+              <div>尺码:</div>
+              <div class="infoClassDataItem">
+                <div>短袖</div>
+                <div>短袖</div>
+                <div>短袖</div>
+                <div>短袖</div>
+                <div>短袖</div>
+                <div>短袖</div>
+              </div>
+            </div>
+            <div class="infoClassData">
+              <div style="margin-bottom: 5px">数量:</div>
+              <div class="infoClassDataItem2">
+                <div class="infoClassDataItem2_left">-</div>
+                <div class="infoClassDataItem2_content">1</div>
+                <div class="infoClassDataItem2_right">+</div>
+              </div>
+            </div>
+          </scroll>
+        </div>
       </div>
+
+      <!-- 确定 -->
+      <div class="infoEnter">确定</div>
     </div>
   </div>
 </template>
 
 <script>
+import Scroll from "../../../components/common/scroll/Scroll";
 export default {
   data() {
     return {};
@@ -19,13 +74,13 @@ export default {
       type: Boolean,
       default() {
         return false;
-      },
+      }
     },
-    skuInfo:{
+    skuInfo: {
       type: Object,
       default() {
         return {};
-      },
+      }
     }
   },
   methods: {
@@ -33,16 +88,18 @@ export default {
     infoClose() {
       this.$emit("infoClose");
     },
-    infoBtnData(){
+    infoBtnData() {
       console.log(this.skuInfo);
     }
   },
   computed: {},
+  components: {
+    Scroll
+  }
 };
 </script>
 
 <style scoped>
-
 .info {
   position: fixed;
   top: 44px;
@@ -61,6 +118,8 @@ export default {
   background-color: #fff;
   padding: 7px;
   animation: infoAni 0.6s ease-out;
+  display: flex;
+  flex-direction: column;
 }
 
 .infoClose {
@@ -79,6 +138,107 @@ export default {
     height: 60vh;
   }
 }
+@keyframes sw2 {
+  0% {
+    height: 0;
+  }
+  20% {
+    height: 0;
+  }
+  100% {
+    height: 38vh;
+  }
+}
 
+.infoNav {
+  width: 100%;
+  height: 100px;
+}
 
+.infoIMG {
+  width: 100px;
+  height: 160px;
+  background-color: cadetblue;
+  position: absolute;
+  top: -50px;
+  left: 10px;
+}
+.infoTitle {
+  width: 200px;
+  height: 110px;
+  position: absolute;
+  top: 0px;
+  left: 120px;
+  border: solid 1px black;
+}
+.infoTitle .infoTitleFont1 {
+  font-size: 30px;
+  color: black;
+  margin: 5px;
+}
+.infoTitle .infoTitleFont1 span {
+  font-size: 15px;
+}
+.infoTitle .infoTitleFont2 {
+  font-size: 14px;
+  color: rgb(137, 137, 137);
+  margin: 5px;
+}
+
+.infoClassData {
+  height: 100px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+}
+.infoClassDataItem {
+  display: flex;
+  flex-wrap: wrap;
+}
+.infoClassDataItem div {
+  border: solid 1px rgb(137, 137, 137);
+  padding: 5px 10px 5px 10px;
+  margin: 5px 10px 5px 10px;
+  border-radius: 8px;
+}
+
+.infoClassDataItem2 {
+  display: flex;
+  flex-wrap: wrap;
+}
+.infoClassDataItem2 div {
+  display: flex;
+  flex-wrap: wrap;
+  width: 40px;
+  border: solid 1px rgb(137, 137, 137);
+  padding: 5px 10px 5px 10px;
+  display: flex;
+  justify-content: center;
+}
+.infoClassDataItem2_left {
+  border-radius: 8px 0 0 8px;
+}
+.infoClassDataItem2_right {
+  border-radius: 0 8px 8px 0;
+}
+
+.infoEnter {
+  width: 100%;
+  height: 50px;
+  background-color: #ff5771;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  line-height: 50px;
+  color: #fff;
+  font-size: 17px;
+}
+
+.contenthe {
+  margin-top: 10px;
+  height: calc(100vh - 40vh - 50px - 120px);
+  overflow: hidden;
+  animation: sw2 0.6s ease-out;
+}
 </style>
