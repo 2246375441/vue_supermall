@@ -5,6 +5,8 @@ import actions from './actions'
 import mutations from './mutations'
 import getters from './getters'
 
+import shop from './Shop'
+
 
 // 1 安装插件
 Vue.use(Vuex)
@@ -18,7 +20,10 @@ const store = new Vuex.Store({
   state,
   mutations,
   actions,
-  getters
+  getters,
+  modules:{
+    shop
+  }
 
 })
 

@@ -28,13 +28,13 @@
             <div class="infoClassData">
               <div>{{skuInfo.props[0].label}}</div>
               <div class="infoClassDataItem">
-                <button class="infoClassDataItemDiv"  v-for="(item,i) in skuInfo.props[0].list" :key="item.styleId" @click="ListId0(item)" :class="{active:currentIndex1===item.styleId}">{{item.name}}</button>
+                <button class="infoClassDataItemDiv"  v-for="(item) in skuInfo.props[0].list" :key="item.styleId" @click="ListId0(item)" :class="{active:currentIndex1===item.styleId}">{{item.name}}</button>
               </div>
             </div>
             <div class="infoClassData">
               <div>{{skuInfo.props[1].label}}</div>
               <div class="infoClassDataItem">
-                <button class="infoClassDataItemDiv"  v-for="(item,i) in skuInfo.props[1].list" :key="item.sizeId" @click="ListId1(item)" :class="{active:currentIndex2===item.sizeId}">{{item.name}}</button>
+                <button class="infoClassDataItemDiv"  v-for="(item) in skuInfo.props[1].list" :key="item.sizeId" @click="ListId1(item)" :class="{active:currentIndex2===item.sizeId}">{{item.name}}</button>
               </div>
             </div>
             <div class="infoClassData">
@@ -51,7 +51,7 @@
       </div>
 
       <!-- 确定 -->
-      <div class="infoEnter">确定</div>
+      <div class="infoEnter" @click="handGO">确定</div>
     </div>
   </div>
 </template>
@@ -91,6 +91,18 @@ export default {
       default() {
         return {};
       }
+    },
+    shop: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
+    iid:{
+      type:[String,Number],
+      default(){
+        return 'NO'
+      }
     }
   },
   methods: {
@@ -122,6 +134,25 @@ export default {
       }else{
         this.total --
       }
+    },
+    handGO(){
+      const ShowObj = {
+        // Item:this.showItem,
+        iid:this.iid,
+        shopName:this.shop.name,
+        nowPrice:this.nowPrice,
+        Fashion:this.Fashion,
+        total:this.total,
+        img:this.showItem.img,
+        style:this.showItem.style,
+        size:this.showItem.size
+      }
+      // console.log(ShowObj)
+      this.$store.commit('SET_IF',ShowObj)
+
+      this.$emit("infoClose");
+
+      this.$toast.show('加入购物车',1500)
     }
   },
   computed: {
@@ -135,7 +166,7 @@ export default {
         if (item.styleId ==this.currentIndex1 && item.sizeId ==this.currentIndex2) {
           // console.log(item)
           this.showItem = item
-          console.log(this.showItem)
+          // console.log(this.showItem)
           return bl = item.img
         }
       });

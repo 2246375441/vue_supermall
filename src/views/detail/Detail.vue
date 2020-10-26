@@ -13,7 +13,7 @@
     <back-top @click.native="backClick" v-show="isShowBackTo"></back-top>
     <deta-bottom-bar @addToCart="addToCart" @isDetaInfo="isDetaInfo"></deta-bottom-bar>
     <!-- <toast  :message="message" :show="show"></toast> -->
-    <deta-info :isDetaInfo="isInfo" :skuInfo="skuInfo" @infoClose="infoClose"></deta-info>
+    <deta-info :isDetaInfo="isInfo" :skuInfo="skuInfo" :shop="shop" :iid="iid" @infoClose="infoClose"></deta-info>
 
   </div>
 </template>
