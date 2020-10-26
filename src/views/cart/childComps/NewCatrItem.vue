@@ -1,34 +1,33 @@
 <template>
   <div id="shopping-cart-list-item">
     <div class="item-selector">
-      <!-- :is-checked="product.checked" -->
-      <check-button  @click.native="checkClick">
+      <check-button  @click.native="checkClick(showData)" :is-checked="showData.checked">
       </check-button>
     </div>
-    <div class="item-img" @click="showDetail">
+    <div class="item-img" @click="showDetail(showData)">
       <img :src="showData.img" alt="商品图片" />
     </div>
     <div class="item-info">
-      <div class="item-name" @click="showDetail">
+      <div class="item-name" @click="showDetail(showData)">
         <img src="../../../assets/img/profile/vip.svg" height="48" width="48" />
         {{showData.shopName}}
       </div>
-      <div class="item-desc" @click="showDetail">
+      <div class="item-desc" @click="showDetail(showData)">
         {{showData.shopName}}
       </div>
-      <div class="item-msg" @click="showDetail">
+      <div class="item-msg" @click="showDetail(showData)">
         类别：{{showData.style}}, 
         尺码：{{showData.size}}
        
       </div>
       <div class="info-bottom">
-        <div class="item-price left" @click="showDetail">
+        <div class="item-price left" @click="showDetail(showData)">
           ¥ {{showData.nowPrice}}
         </div>
         <div class="item-count right">
-          <div @click="decrease">－</div>
+          <div @click="decrease(showData)">－</div>
           <div>{{showData.total}}</div>
-          <div @click="increase">＋</div>
+          <div @click="increase(showData)">＋</div>
         </div>
       </div>
     </div>
@@ -50,21 +49,27 @@ export default {
   },
   methods: {
     //1、改变商品的选中状态
-    checkClick() {
+    checkClick(item) {
       //修改store里面的数据一定要经过mutations，否则调试插件监控不到
+      this.$store.commit('SET_CHE',item)
+      this.$store.commit('SET_MAX_PRICE')
+    },
+    //2、点击商品可再次进入详情页
+    showDetail(item) {
+      // console.log(item)
+      this.$router.push("/detail/" + item.iid);
     },
 
-    //2、点击商品可再次进入详情页
-    showDetail() {},
-
     //3、增加商品数量
-    increase() {
+    increase(item) {
       //调用mutations里面的增加方法
+      this.$store.commit('SET_ADD',item)
     },
 
     //4、减少商品数量
-    decrease() {
+    decrease(item) {
       //调用mutations里面的减少方法
+      this.$store.commit('SET_JIAN',item)
     }
   }
 };

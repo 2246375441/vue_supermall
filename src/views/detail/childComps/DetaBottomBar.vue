@@ -16,7 +16,7 @@
     </div>
     <div class="bar-item bar-right">
       <div class="cart" @click="isDetaInfo">加入购物车</div>
-      <div class="buy" @click="addToCart">购买</div>
+      <div class="buy" @click="isDetaInfo">购买</div>
     </div>
   </div>
 </template>

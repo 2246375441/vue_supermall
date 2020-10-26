@@ -14,9 +14,11 @@
     </new-catr>
 
     <!-- 底部汇总 -->
-    <cart-botton-bar>
-      
-    </cart-botton-bar>
+    <!-- <cart-botton-bar></cart-botton-bar> -->
+
+    
+    <!-- 新的底部汇总 -->
+    <new-botton-bar></new-botton-bar>
 
   </div>
 </template>
@@ -26,6 +28,7 @@ import NavBar from '../../components/common/navbar/NavBar'
 import CartList from './childComps/CartList'
 import CartBottonBar from './childComps/CartBottonBar'
 import NewCatr from './childComps/NewCatr'
+import NewBottonBar from './childComps/NewBottonBar'
 
 
 import { mapGetters } from 'vuex'   //可以用... 代替 vuex中的getters.js 映射成局部计算属性
@@ -36,13 +39,14 @@ export default {
     NavBar,
     CartList,
     CartBottonBar,
-    NewCatr
+    NewCatr,
+    NewBottonBar
   },
   computed: {
     ...mapGetters(['cartLength']),
+    // 商品数量
     totalMax(){
-      console.log(this.$store.state)
-      return 123465
+      return this.$store.state.shop.showData.length
     }
   },
 }

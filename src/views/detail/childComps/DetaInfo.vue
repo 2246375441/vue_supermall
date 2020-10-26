@@ -145,7 +145,8 @@ export default {
         total:this.total,
         img:this.showItem.img,
         style:this.showItem.style,
-        size:this.showItem.size
+        size:this.showItem.size,
+        checked:false
       }
       // console.log(ShowObj)
       this.$store.commit('SET_IF',ShowObj)
