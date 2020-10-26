@@ -1,17 +1,19 @@
 <template>
   <div class="wk">
+    <!-- v-if="isDetaInfo" -->
     <div class="info" v-if="isDetaInfo">
       <div class="infocon">
         <div class="infoClose" @click="infoClose">❌</div>
-        <!-- <button @click="infoBtnData">打印获得数据</button> -->
 
         <!-- 头部内容 -->
         <div class="infoNav">
-          <div class="infoIMG"></div>
+          <div class="infoIMG">
+            <img :src="showImg" alt="" class="infoImgClass">
+          </div>
           <div class="infoTitle">
-            <div class="infoTitleFont1"><span>￥</span>100.00</div>
-            <div class="infoTitleFont2">库存2000</div>
-            <div class="infoTitleFont2">选择样式：短袖</div>
+            <div class="infoTitleFont1"><span>￥</span>{{showPrice}}</div>
+            <div class="infoTitleFont2">库存{{stock}}</div>
+            <div class="infoTitleFont2">选择样式：{{Fashion}}</div>
           </div>
         </div>
 
@@ -24,34 +26,25 @@
           >
             <!-- 样式选择区域 -->
             <div class="infoClassData">
-              <div>颜色:</div>
+              <div>{{skuInfo.props[0].label}}</div>
               <div class="infoClassDataItem">
-                <div>短袖</div>
-                <div>短袖</div>
-                <div>短袖</div>
-                <div>短袖</div>
-                <div>短袖</div>
-                <div>短袖</div>
+                <button class="infoClassDataItemDiv"  v-for="(item,i) in skuInfo.props[0].list" :key="item.styleId" @click="ListId0(item)" :class="{active:currentIndex1===item.styleId}">{{item.name}}</button>
               </div>
             </div>
             <div class="infoClassData">
-              <div>尺码:</div>
+              <div>{{skuInfo.props[1].label}}</div>
               <div class="infoClassDataItem">
-                <div>短袖</div>
-                <div>短袖</div>
-                <div>短袖</div>
-                <div>短袖</div>
-                <div>短袖</div>
-                <div>短袖</div>
+                <button class="infoClassDataItemDiv"  v-for="(item,i) in skuInfo.props[1].list" :key="item.sizeId" @click="ListId1(item)" :class="{active:currentIndex2===item.sizeId}">{{item.name}}</button>
               </div>
             </div>
             <div class="infoClassData">
               <div style="margin-bottom: 5px">数量:</div>
               <div class="infoClassDataItem2">
-                <div class="infoClassDataItem2_left">-</div>
-                <div class="infoClassDataItem2_content">1</div>
-                <div class="infoClassDataItem2_right">+</div>
+                <div class="infoClassDataItem2_left" @click="Jian">-</div>
+                <input type="Number" v-model="total" class="infoClassDataItem2_content">
+                <div class="infoClassDataItem2_right" @click="Jia">+</div>
               </div>
+              <div class="ts">{{ts}}</div>
             </div>
           </scroll>
         </div>
@@ -67,7 +60,24 @@
 import Scroll from "../../../components/common/scroll/Scroll";
 export default {
   data() {
-    return {};
+    return {
+      shopData:{},
+      currentIndex1:1,
+      currentIndex2:100,
+      // 数量少于1 提示
+      ts:'',
+      // 临时存储选择商品数据
+      showItem:{},
+      // 价格
+      nowPrice:0,
+      // 库存
+      stock:0,
+      // 选择样式:
+      Fashion:'',
+      // 购买数量
+      total:1
+
+    };
   },
   props: {
     isDetaInfo: {
@@ -88,11 +98,62 @@ export default {
     infoClose() {
       this.$emit("infoClose");
     },
-    infoBtnData() {
-      console.log(this.skuInfo);
+    // 存储颜色 分类id
+    ListId0(item){
+      // console.log(item)
+      this.currentIndex1 = item.styleId
+    
+    },
+    ListId1(item){
+      // console.log(item)
+      this.currentIndex2 = item.sizeId
+    },
+    Jia(){
+      if (this.total >=1) {
+        this.total ++
+      }
+    },
+    Jian(){
+      if (this.total == 1) {
+        this.ts = "最少购买一件";
+          setTimeout(() => {
+            this.ts = "";
+          }, 1000)
+      }else{
+        this.total --
+      }
     }
   },
-  computed: {},
+  computed: {
+    // 图片显示
+    showImg(){
+      // console.log(this.skuInfo.skus)
+      const list = this.skuInfo.skus
+      var bl = ''
+      list.forEach((item,i) => {
+        // console.log(item)
+        if (item.styleId ==this.currentIndex1 && item.sizeId ==this.currentIndex2) {
+          // console.log(item)
+          this.showItem = item
+          console.log(this.showItem)
+          return bl = item.img
+        }
+      });
+      return bl
+    },
+    // 价格 和 库存 样式
+    showPrice(){
+      var price = this.showItem.nowprice.toString()
+      const startStr = price.substr(0, (price.length - 2));
+      const endTwoStr = price.substr((price.length - 2), 2);
+      this.nowPrice = startStr + '.' + endTwoStr;
+      // 库存
+      this.stock = this.showItem.stock
+      // 样式
+      this.Fashion = this.showItem.style +' '+this.showItem.size
+      return this.nowPrice
+    }
+  },
   components: {
     Scroll
   }
@@ -163,13 +224,16 @@ export default {
   top: -50px;
   left: 10px;
 }
+.infoImgClass{
+  width: 100%;
+  height: auto;
+}
 .infoTitle {
   width: 200px;
   height: 110px;
   position: absolute;
   top: 0px;
   left: 120px;
-  border: solid 1px black;
 }
 .infoTitle .infoTitleFont1 {
   font-size: 30px;
@@ -186,7 +250,6 @@ export default {
 }
 
 .infoClassData {
-  height: 100px;
   margin-bottom: 5px;
   display: flex;
   flex-direction: column;
@@ -195,11 +258,12 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
-.infoClassDataItem div {
+.infoClassDataItemDiv {
   border: solid 1px rgb(137, 137, 137);
   padding: 5px 10px 5px 10px;
   margin: 5px 10px 5px 10px;
   border-radius: 8px;
+  background-color: white;
 }
 
 .infoClassDataItem2 {
@@ -221,6 +285,10 @@ export default {
 .infoClassDataItem2_right {
   border-radius: 0 8px 8px 0;
 }
+.infoClassDataItem2_content{
+  width:40px;
+  text-align: center;
+}
 
 .infoEnter {
   width: 100%;
@@ -240,5 +308,10 @@ export default {
   height: calc(100vh - 40vh - 50px - 120px);
   overflow: hidden;
   animation: sw2 0.6s ease-out;
+}
+
+.ts{
+  font-size: 13px;
+  margin-top: 3px;
 }
 </style>
