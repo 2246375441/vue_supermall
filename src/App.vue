@@ -1,5 +1,5 @@
 <template>
-<!-- 2020/10/14 -->
+<!-- 最近更新2020-10-26 添加完毕购物车功能！！！ -->
   <div id="app">
     <keep-alive exclude="Detail,CategoryData">
       <!-- keep-alive 缓存    exclude="Detail" 这页面不缓存 -->
