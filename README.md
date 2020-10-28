@@ -8,7 +8,7 @@
   <div class="wk" style="width: 100%;display: flex;justify-content: center;">
     <div class="nk_left">
       <h1>项目效果图</h1>
-      <h1><a href="http://chenxinlong.xyz/supermall/">线上查看[请使用移动端查看,浏览器F12]</a></h1>
+      <h1><a href="http://chenxinlong.xyz/supermall/#/home">线上查看[请使用移动端查看,浏览器F12]</a></h1>
       <img src="./public/效果图.gif" alt="">
     </div>
     <div class="nk_right">
