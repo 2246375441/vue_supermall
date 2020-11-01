@@ -42,6 +42,10 @@ const routes = [
   {
     path:'/categorydata/:iid',
     component:CategoryData
+  },
+  { 
+    path: '*', 
+    component: Home
   }
 
 ]
@@ -49,6 +53,8 @@ const routes = [
 const router = new VueRouter({
   routes,
   // 去掉# 启动history模式
+  // base: process.env.BASE_URL,
+  // 打包上传开启history模式 
   // mode:'history'
   mode:'hash'
 })
