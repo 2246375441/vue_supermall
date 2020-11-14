@@ -99,7 +99,6 @@ export default {
 
   .item-name{
     display: flex;
-    justify-content: start;
   }
   
   .item-desc {

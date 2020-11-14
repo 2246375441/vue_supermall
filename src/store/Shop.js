@@ -74,6 +74,8 @@ const mutations = {
     if (params.total>=0) {
       params.total ++
     }
+
+    this.commit('SET_MAX_PRICE',state)
   },
   // 点击减少数量
   SET_JIAN(state,params){
@@ -92,6 +94,9 @@ const mutations = {
         }
       }
     }
+
+
+    this.commit('SET_MAX_PRICE',state)
   }
 }
 
