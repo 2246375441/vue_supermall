@@ -53,12 +53,6 @@ export default {
 
     }
   },
-  updated () {
-    var imgs = this.$refs.itemImg
-    if (imgs!==undefined) {
-      console.dir(imgs[0])
-    }
-  }
 }
 </script>
 
