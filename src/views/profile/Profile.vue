@@ -1,5 +1,5 @@
 <template>
-  <div class="Profile">
+  <div class="Profile" @click="ts">
     <nav-bar class="navbar">
       <div slot="center">我的</div>
     </nav-bar>
@@ -39,7 +39,12 @@ export default {
   components:{
     NavBar,
     ProfileHome
-  }
+  },
+  methods: {
+    ts(){
+      this.$toast.show('个人模块木有开发！',2000)
+    }
+  },
 }
 </script>
 

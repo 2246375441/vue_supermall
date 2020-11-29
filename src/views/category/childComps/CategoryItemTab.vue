@@ -1,9 +1,8 @@
 <template>
   <div class="wk" v-if="Object.keys(categoryitemtab).length !== 0">
-    <!-- <button @click="cccccc">2222</button> -->
     <div v-for="(item,index) in categoryitemtab[categorytab].data" :key="index" class="wkitem" @click="itemClick(index)">
       <div class="wkitem-dw">
-        <img v-lazy="item.img" alt="" class="wkitem-img">
+        <img v-lazy="item.img" alt="" class="wkitem-img" ref="itemImg">
         <div class="wkitem-wzq">
           <div class="wkitem-wz">{{item.title}}</div>
           <div>
@@ -54,6 +53,12 @@ export default {
 
     }
   },
+  updated () {
+    var imgs = this.$refs.itemImg
+    if (imgs!==undefined) {
+      console.dir(imgs[0])
+    }
+  }
 }
 </script>
 
@@ -68,7 +73,9 @@ export default {
 }
 .wkitem{
   width: 47%;
-  height: 39vh;
+  /* height: 248px; 图片高度+40px*/
+  height: 248px;
+
   margin-bottom: 5px;
   /* background-color: red; */
 }

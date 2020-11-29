@@ -9,7 +9,7 @@
       合计:{{maxPriceV}}
     </div>
 
-    <div class="calculate">
+    <div class="calculate" @click="cartPayment">
       去计算
     </div>
   </div>
@@ -43,6 +43,11 @@ export default {
       this.$store.commit('SET_CHE_CLICK')
 
       this.$store.commit('SET_MAX_PRICE')
+    },
+    // 购物车支付
+    cartPayment(){
+      // 中心小提示框
+      this.$toast.show('支付模块暂时木有开发',2000)
     }
   },
 }
